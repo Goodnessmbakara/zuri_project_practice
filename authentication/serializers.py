@@ -1,7 +1,7 @@
 from enum import unique
 from django.db import models
 from django.forms import PasswordInput
-import phonenumber_field
+from phonenumber_field.modelfields import PhoneNumberField
 from.models import user
 from rest_framework import serializers
 
@@ -9,11 +9,12 @@ from rest_framework import serializers
 class UserCreationSerializer(serializers.ModelSerializer):
     username=models.CharField(max_length=25,unique=True)
     email=models.EmailField(max_length=80,unique=True)
-    phone_number=phonenumber_field(null=False,unique=True)
+    phone_number=PhoneNumberField(null=False,unique=True)
     password=serializers.CharField(min_length=8)
+    
 
 
-    def Meta():
+    class Meta():
         model=user
         fields=['username','email','phone_number','password']
 
